@@ -1,21 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
+import './Navbar.css';
 
 const Navigation = () => {
     return (
-        <Navbar bg="light" expand="lg">
-            <Link to="/new-word" style={{ textDecoration: 'none' }}>
-                <Navbar.Brand>logo</Navbar.Brand>
-            </Link>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto">
-                    <Nav.Link as={Link} to="/new-word">新词</Nav.Link>
-                    <Nav.Link as={Link} to="/game">游戏</Nav.Link>
-                    <Nav.Link as={Link} to="/quiz">测验</Nav.Link>
-                </Nav>
-            </Navbar.Collapse>
+        <Navbar bg="light" expand="lg" className="justify-content-center">
+            <Nav className="navbar-nav">
+                <Nav.Link as={Link} to="/new-word">新词</Nav.Link>
+                <Nav.Link as={Link} to="/game">游戏</Nav.Link>
+                <Nav.Link as={Link} to="/quiz">测验</Nav.Link>
+            </Nav>
         </Navbar>
     );
 };

@@ -1,0 +1,8 @@
+.navbar-nav {
+    flex-direction: row !important;
+    gap: clamp(var(--min-gap), 5rem, var(--max-gap)); 
+}
+
+.navbar-nav a {
+    flex-shrink: 0; 
+}
