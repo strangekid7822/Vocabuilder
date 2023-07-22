@@ -5,7 +5,9 @@ import { Navbar, Nav } from 'react-bootstrap';
 const Navigation = () => {
     return (
         <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="#home">Vocabulary App</Navbar.Brand>
+            <Link to="/new-word" style={{ textDecoration: 'none' }}>
+                <Navbar.Brand>logo</Navbar.Brand>
+            </Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">

@@ -11,6 +11,7 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
+        <Route path="/" element={<NewWordPage />} />
         <Route path="/new-word" element={<NewWordPage />} />
         <Route path="/game" element={<div>Game Page</div>} />
         <Route path="/quiz" element={<div>Quiz Page</div>} />
