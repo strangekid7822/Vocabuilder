@@ -1,8 +1,7 @@
-// src/components/WordForm.js
-
 import React, { useContext, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { WordContext } from '../WordContext';
+import './WordForm.css';
 
 const WordForm = () => {
     const [words, setWords] = useContext(WordContext);
