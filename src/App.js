@@ -12,12 +12,14 @@ function App() {
   return (
     <Router>
       <Navbar />
+      <div className='main-container'>
       <Routes>
         <Route path="/" element={<NewWordPage />} />
         <Route path="/new-word" element={<NewWordPage />} />
         <Route path="/game" element={<GamePage />} />
         <Route path="/quiz" element={<QuizPage />} />
       </Routes>
+      </div>
     </Router>
   );
 }
