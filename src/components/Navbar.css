@@ -1,8 +1,22 @@
 .navbar-nav {
     flex-direction: row !important;
-    gap: clamp(var(--min-gap), 5rem, var(--max-gap)); 
-}
-
-.navbar-nav a {
-    flex-shrink: 0; 
-}
+    column-gap: 2rem; 
+  }
+  
+  @media (width >= 600px) {
+    .navbar-nav {
+      column-gap: 4rem;
+    }
+  }
+  
+  @media (width >= 900px) {
+    .navbar-nav {
+      column-gap: 6rem; 
+    }
+  }
+  
+  @media (width >= 1200px) {
+    .navbar-nav {
+      column-gap: 10rem;
+    } 
+  }
