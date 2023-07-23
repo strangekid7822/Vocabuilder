@@ -1,0 +1,10 @@
+body {
+  background-color: gray;
+}
+
+.main-container {
+  width: 100%; /* Occupies 100% width of its container by default */
+  max-width: 900px; /* Sets a maximum width of 900px so when the screen size expands, the width of the element would expland at the same time */
+  margin: 0 auto; /* Centers the element horizontally within its container */
+  background-color: rgb(186, 252, 230);
+}
