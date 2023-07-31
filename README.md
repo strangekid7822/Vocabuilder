@@ -11,9 +11,13 @@ As of now, we have:
 - Resolved issues related to missing dependencies.
 - Set up a basic navigation bar using `react-bootstrap`.
 - Fixed routing issues in the `App.js` file.
+- Installed and set up a local SQLite database for persisting user data.
+- Created a server with Express.js to handle API requests to the database.
+- Designed a comprehensive table structure in the SQLite database to store word data, including review and error counts.
 
 ## Next Steps
 
-- Make the WordForm functional so that users can add new words to their list.
-- Design and implement the Game and Quiz pages.
-- Connect the components to a state management solution or a backend, as needed.
+- Write API endpoints to interact with the SQLite database, allowing the application to create, read, update, and delete words.
+- Connect the WordForm and WordList components to these API endpoints, allowing the user interface to interact with the stored data.
+- Design and implement the Game and Quiz pages, which will utilize the stored word data.
+- Develop a strategy for reviewing words based on their review and error counts, to optimize the user's learning.
