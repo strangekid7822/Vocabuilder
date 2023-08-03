@@ -1,0 +1,13 @@
+{
+    "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+    "word": "TEXT NOT NULL",
+    "word_class": "TEXT (comma-separated values)",
+    "meaning": "TEXT",
+    "library": "TEXT",
+    "total_review_count": "INTEGER DEFAULT 0",
+    "total_error_count": "INTEGER DEFAULT 0",
+    "next_review_date": "TEXT",
+    "interval": "INTEGER DEFAULT 1",
+    "last_review_date": "TEXT",
+    "examples": "TEXT"
+  }
