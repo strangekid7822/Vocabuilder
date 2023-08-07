@@ -72,6 +72,11 @@ app.put('/words/:id', (req, res) => {
   });
 });
 
+// This route handler responds to requests at the root endpoint ("/")
+app.get('/', (req, res) => {
+  res.send('Hello from the root endpoint!');
+});
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`)
 });
