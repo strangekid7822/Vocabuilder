@@ -1,14 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';  // remove useContext
 import { ListGroup } from 'react-bootstrap';
-import { WordContext } from '../WordContext';
+// remove WordContext
 
-const WordList = () => {
-    const [words, setWords] = useContext(WordContext);
-
+const WordList = ({ words }) => {  // accept words as a prop
     return (
         <ListGroup>
-            {words.map((word, index) => (
-                <ListGroup.Item key={index}>{word}</ListGroup.Item>
+            {words.map((word) => (
+                <ListGroup.Item key={word.id}>{word.word}</ListGroup.Item>  // use word.id as key and word.word as the item
             ))}
         </ListGroup>
     );
