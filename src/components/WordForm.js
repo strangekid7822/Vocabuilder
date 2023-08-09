@@ -4,94 +4,90 @@ import './WordForm.css';
 
 const WordForm = ({ setWords }) => {
   const [newWord, setNewWord] = useState('');
-  const [wordClass, setWordClass] = useState(''); // New field for word class
-  const [meaning, setMeaning] = useState(''); // New field for meaning
-  const [library, setLibrary] = useState(''); // New field for library
-  const [bookName, setBookName] = useState(''); // New field for book name
-  const [unitName, setUnitName] = useState(''); // New field for unit name
-  const [audioFilePath, setAudioFilePath] = useState(''); // New field for audio file path
+  const [wordClass, setWordClass] = useState('');
+  const [meaning, setMeaning] = useState('');
+  const [currentPhase, setCurrentPhase] = useState(1); // New state for tracking current input phase
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    // Based on the current phase, proceed to the next phase or save to database
+    if (currentPhase === 1) {
+      setCurrentPhase(2);
+    } else if (currentPhase === 2) {
+      setCurrentPhase(3);
+    } else if (currentPhase === 3) {
+      const wordData = {
+        word: newWord,
+        word_class: wordClass,
+        meaning: meaning
+      };
 
-    const wordData = {
-      word: newWord,
-      word_class: wordClass,
-      meaning: meaning,
-      library: library,
-      book_name: bookName,
-      unit_name: unitName,
-      audio_file_path: audioFilePath
-    };
+      const response = await fetch('/words', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(wordData),
+      });
 
-    const response = await fetch('/words', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(wordData),
-    });
+      if (response.ok) {
+        setNewWord('');
+        setWordClass('');
+        setMeaning('');
+        setCurrentPhase(1); // Reset the phase
 
-    if (response.ok) {
-      setNewWord('');
-      setWordClass('');
-      setMeaning('');
-      setLibrary('');
-      setBookName('');
-      setUnitName('');
-      setAudioFilePath('');
+        // Fetch the updated word list from the server
+        const response = await fetch('/words');
+        const data = await response.json();
+        setWords(data);
 
-      // After adding a new word, fetch the updated word list from the server
-      const response = await fetch('/words');
-      const data = await response.json();
-      setWords(data);
-
-      alert('Word added successfully!');
-    } else {
-      alert('Failed to add word. Please try again.');
+        alert('Word added successfully!');
+      } else {
+        alert('Failed to add word. Please try again.');
+      }
     }
   };
+
+  // Depending on the current phase, render the appropriate input
+  let inputLabel, inputValue, inputSetter, placeholder;
+  if (currentPhase === 1) {
+    inputLabel = "请输入这个新单词";
+    inputValue = newWord;
+    inputSetter = setNewWord;
+    placeholder = "在这里输入";
+  } else if (currentPhase === 2) {
+    inputLabel = "请输入词性";
+    inputValue = wordClass;
+    inputSetter = setWordClass;
+    placeholder = "在这里输入";
+  } else if (currentPhase === 3) {
+    inputLabel = "请输入汉意";
+    inputValue = meaning;
+    inputSetter = setMeaning;
+    placeholder = "在这里输入";
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group>
-        <Form.Label>新词</Form.Label>
-        <Form.Control type="text" value={newWord} onChange={e => setNewWord(e.target.value)} placeholder="Enter new word" />
-      </Form.Group>
-
-      <Form.Group>
-        <Form.Label>词性</Form.Label>
-        <Form.Control type="text" value={wordClass} onChange={e => setWordClass(e.target.value)} placeholder="Enter word class" />
-      </Form.Group>
-
-      <Form.Group>
-        <Form.Label>意思</Form.Label>
-        <Form.Control type="text" value={meaning} onChange={e => setMeaning(e.target.value)} placeholder="Enter meaning" />
-      </Form.Group>
-
-      <Form.Group>
-        <Form.Label>来源</Form.Label>
-        <Form.Control type="text" value={library} onChange={e => setLibrary(e.target.value)} placeholder="Enter library" />
-      </Form.Group>
-
-      <Form.Group>
-        <Form.Label>书名</Form.Label>
-        <Form.Control type="text" value={bookName} onChange={e => setBookName(e.target.value)} placeholder="Enter book name (comma-separated if multiple)" />
-      </Form.Group>
-
-      <Form.Group>
-        <Form.Label>单元名</Form.Label>
-        <Form.Control type="text" value={unitName} onChange={e => setUnitName(e.target.value)} placeholder="Enter unit name (comma-separated if multiple)" />
-      </Form.Group>
-
-      <Form.Group>
-        <Form.Label>音频文件路径</Form.Label>
-        <Form.Control type="text" value={audioFilePath} onChange={e => setAudioFilePath(e.target.value)} placeholder="Enter audio file path" />
+        <Form.Label>{inputLabel}</Form.Label>
+        <Form.Control 
+          type="text" 
+          value={inputValue} 
+          onChange={e => inputSetter(e.target.value)} 
+          placeholder={placeholder} 
+        />
       </Form.Group>
 
       <Button variant="primary" type="submit">
-        提交
+        {currentPhase === 3 ? '保存' : '继续'}
       </Button>
+      {currentPhase !== 1 && (
+        <Button variant="secondary" onClick={() => setCurrentPhase(currentPhase - 1)}>
+          返回
+        </Button>
+      )}
     </Form>
   );
 };
