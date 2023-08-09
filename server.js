@@ -1,13 +1,11 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose(); // import sqlite3 package
-const bodyParser = require('body-parser'); // import body-parser for handling JSON requests
+const sqlite3 = require('sqlite3').verbose();
+const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Use body-parser to handle JSON requests
 app.use(bodyParser.json());
 
-// Connect to SQLite database
 let db = new sqlite3.Database('./db/words.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
   if (err) {
     console.error(err.message);
@@ -15,7 +13,7 @@ let db = new sqlite3.Database('./db/words.db', sqlite3.OPEN_READWRITE | sqlite3.
   console.log('Connected to the words database.');
 });
 
-// Create the words table if not exists
+// Updated the table creation SQL to include new fields and changed the order as desired
 db.run(`
   CREATE TABLE IF NOT EXISTS words (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,16 +21,18 @@ db.run(`
     word_class TEXT,
     meaning TEXT,
     library TEXT,
+    book_name TEXT,
+    unit_name TEXT,
+    audio_file_path TEXT,
     total_review_count INTEGER DEFAULT 0,
     total_error_count INTEGER DEFAULT 0,
+    last_review_date TEXT,
     next_review_date TEXT,
     interval INTEGER DEFAULT 1,
-    last_review_date TEXT,
     examples TEXT
   )
 `);
 
-// Implement GET /words to fetch all words for review
 app.get('/words', (req, res) => {
   db.all('SELECT * FROM words', [], (err, rows) => {
     if (err) {
@@ -43,11 +43,22 @@ app.get('/words', (req, res) => {
   });
 });
 
-// Implement POST /words to add a new word to the database
+// Updated to handle the new fields when adding a new word
 app.post('/words', (req, res) => {
   const word = req.body;
-  const sql = 'INSERT INTO words (word, word_class, meaning, library) VALUES (?, ?, ?, ?)';
-  const params = [word.word, word.word_class, word.meaning, word.library];
+  const sql = `
+    INSERT INTO words (word, word_class, meaning, library, book_name, unit_name, audio_file_path) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `;
+  const params = [
+    word.word, 
+    word.word_class, 
+    word.meaning, 
+    word.library,
+    word.book_name,
+    word.unit_name,
+    word.audio_file_path
+  ];
   db.run(sql, params, function (err) {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -57,12 +68,24 @@ app.post('/words', (req, res) => {
   });
 });
 
-// Implement PUT /words/:id to update a word in the database
+// Updated to handle the new fields when updating a word
 app.put('/words/:id', (req, res) => {
   const id = req.params.id;
   const word = req.body;
-  const sql = 'UPDATE words SET word = ?, word_class = ?, meaning = ?, library = ? WHERE id = ?';
-  const params = [word.word, word.word_class, word.meaning, word.library, id];
+  const sql = `
+    UPDATE words SET word = ?, word_class = ?, meaning = ?, library = ?, book_name = ?, unit_name = ?, audio_file_path = ? 
+    WHERE id = ?
+  `;
+  const params = [
+    word.word, 
+    word.word_class, 
+    word.meaning, 
+    word.library,
+    word.book_name,
+    word.unit_name,
+    word.audio_file_path,
+    id
+  ];
   db.run(sql, params, function (err) {
     if (err) {
       res.status(400).json({ error: err.message });
@@ -72,7 +95,6 @@ app.put('/words/:id', (req, res) => {
   });
 });
 
-// This route handler responds to requests at the root endpoint ("/")
 app.get('/', (req, res) => {
   res.send('Hello from the root endpoint!');
 });
