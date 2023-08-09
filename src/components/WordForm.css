@@ -1,0 +1,12 @@
+.label-container {
+    display: flex;
+    justify-content: center; /* Center the child (Form.Label) horizontally */
+  }  
+  
+/* Center the container that wraps the buttons horizontally within its parent */
+.buttons-container {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 1rem; /* Add some gap between the buttons */
+}  

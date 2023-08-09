@@ -68,28 +68,33 @@ const WordForm = ({ setWords }) => {
     placeholder = "在这里输入";
   }
 
-  return (
+    return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>{inputLabel}</Form.Label>
+        <Form.Group>
+        <div className="label-container">
+        <Form.Label className="form-label">{inputLabel}</Form.Label>
+        </div>
         <Form.Control 
-          type="text" 
-          value={inputValue} 
-          onChange={e => inputSetter(e.target.value)} 
-          placeholder={placeholder} 
+            type="text" 
+            value={inputValue} 
+            onChange={e => inputSetter(e.target.value)} 
+            placeholder={placeholder} 
         />
-      </Form.Group>
+        </Form.Group>
 
-      <Button variant="primary" type="submit">
-        {currentPhase === 3 ? '保存' : '继续'}
-      </Button>
-      {currentPhase !== 1 && (
-        <Button variant="secondary" onClick={() => setCurrentPhase(currentPhase - 1)}>
-          返回
+        {/* Wrap the buttons in a container */}
+        <div className="buttons-container">
+        <Button variant="primary" type="submit">
+            {currentPhase === 3 ? '保存' : '继续'}
         </Button>
-      )}
+        {currentPhase !== 1 && (
+            <Button variant="secondary" onClick={() => setCurrentPhase(currentPhase - 1)}>
+            返回
+            </Button>
+        )}
+        </div>
     </Form>
-  );
+    );
 };
 
 export default WordForm;
