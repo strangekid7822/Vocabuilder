@@ -84,14 +84,14 @@ const WordForm = ({ setWords }) => {
 
         {/* Wrap the buttons in a container */}
         <div className="buttons-container">
-        <Button variant="primary" type="submit">
-            {currentPhase === 3 ? '保存' : '继续'}
-        </Button>
         {currentPhase !== 1 && (
             <Button variant="secondary" onClick={() => setCurrentPhase(currentPhase - 1)}>
             返回
             </Button>
         )}
+        <Button variant="primary" type="submit">
+            {currentPhase === 3 ? '保存' : '继续'}
+        </Button>
         </div>
     </Form>
     );
