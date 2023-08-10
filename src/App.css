@@ -11,3 +11,8 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+/* Preset styles */
+.text-align-c {
+  text-align: center;
+}

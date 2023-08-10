@@ -78,6 +78,7 @@ const WordForm = ({ setWords }) => {
             type="text" 
             value={inputValue} 
             onChange={e => inputSetter(e.target.value)} 
+            className='text-align-c'
             placeholder={placeholder} 
         />
         </Form.Group>
